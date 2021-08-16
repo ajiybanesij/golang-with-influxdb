@@ -1,0 +1,40 @@
+---
+services:
+
+  influxdb:
+    image: influxdb:1.7
+    container_name: influxdb
+    ports:
+      - '8086:8086'
+    environment:
+      - INFLUXDB_DB=example
+      - INFLUXDB_ADMIN_USER=root
+      - INFLUXDB_ADMIN_PASSWORD=root
+      - INFLUXDB_DATA_MAX_VALUES_PER_TAG=0
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+
+    ports:
+      - '3000:3000'
+    environment:
+      - GF_SECURITY_ALLOW_EMBEDDING=true
+      - GF_SECURITY_ADMIN_USER=root
+      - GF_SECURITY_ADMIN_PASSWORD=root
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+
+version: "3"
+
